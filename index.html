@@ -593,7 +593,7 @@
 
       if (existing.exists()) {
         status.className = "success";
-        status.innerHTML = `You're already on the list! You'll get your link by <strong>Monday at 7:00 PM</strong>.<div id="countdown"></div>`;
+        status.innerHTML = `You're already on the list! You'll get your link by <strong>Wednesday, 11 March at 7:00 PM</strong>.<div id="countdown"></div>`;
         submitBtn.disabled = false;
         submitBtn.textContent = "Request Early Access";
         startCountdown("countdown", 19, 0, "🎉 Link is on its way!");
@@ -603,7 +603,7 @@
       await setDoc(docRef, { email, subscribedAt: serverTimestamp(), source: "web" });
 
       status.className = "success";
-      status.innerHTML = `You're on the list! Your access link arrives <strong>Monday at 7:00 PM</strong>.<div id="countdown"></div>`;
+      status.innerHTML = `You're on the list! Your access link arrives <strong>Wednesday, 11 March at 7:00 PM</strong>.<div id="countdown"></div>`;
       emailInput.value = "";
       submitBtn.textContent = "Done ✓";
       startCountdown("countdown", 19, 0, "🎉 Link is on its way!");
@@ -617,22 +617,16 @@
   });
 
   // ── Countdown utility ──
-  function getNextMonday(hour, minute) {
-    const now = new Date();
-    const day = now.getDay(); // 0=Sun, 1=Mon
-    let daysUntil = (1 - day + 7) % 7;
-    const target = new Date(now);
-    target.setDate(now.getDate() + daysUntil);
-    target.setHours(hour, minute, 0, 0);
-    if (target <= now) target.setDate(target.getDate() + 7);
-    return target;
+  function getTarget(hour, minute) {
+    const t = new Date(2026, 2, 11, hour, minute, 0, 0); // March 11, 2026
+    return t;
   }
 
   function startCountdown(elId, hour, minute, doneMsg) {
     function tick() {
       const el = document.getElementById(elId);
       if (!el) return;
-      const diff = getNextMonday(hour, minute) - new Date();
+      const diff = getTarget(hour, minute) - new Date();
       if (diff <= 0) { el.textContent = doneMsg; return; }
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);
@@ -644,7 +638,7 @@
     setInterval(tick, 1000);
   }
 
-  // Registration closes Monday 6:00 PM
+  // Registration closes Wed 11 March 6:00 PM
   startCountdown("reg-countdown", 18, 0, "🔒 Registration closed for this batch.");
 </script>
 
