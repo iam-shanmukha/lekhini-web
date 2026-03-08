@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lekhini — Ink your thoughts.</title>
+  <meta name="description" content="Lekhini is a journal-first writing app for Telugu & English writers. Request early access." />
+  <meta property="og:title" content="Lekhini — Ink your thoughts." />
+  <meta property="og:description" content="A journal-first writing app for Telugu & English writers. Beautiful quote cards. No ads. Ever." />
+  <meta property="og:url" content="https://lekhini.in" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d14;
+      --bg2: #13131f;
+      --bg3: #1a1a2a;
+      --accent: #f97316;
+      --accent-dim: rgba(249, 115, 22, 0.15);
+      --text: #e8e4dc;
+      --text-dim: #a09898;
+      --border: rgba(255,255,255,0.08);
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 60px;
+      background: rgba(13, 13, 20, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wordmark {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 7rem 5% 5rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 100px;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(135deg, var(--text) 0%, #b8b0a4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-dim);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.85rem 2.25rem;
+      border-radius: 100px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .cta-btn:hover {
+      background: #ea6c10;
+      transform: translateY(-1px);
+    }
+
+    /* ── SCREENSHOTS ── */
+    .screenshots-section {
+      padding: 4rem 0;
+      overflow: hidden;
+    }
+
+    .screenshots-scroll {
+      display: flex;
+      gap: 1.25rem;
+      padding: 1rem 5%;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-snap-type: x mandatory;
+    }
+
+    .screenshots-scroll::-webkit-scrollbar { display: none; }
+
+    .phone-frame {
+      flex: 0 0 auto;
+      width: 200px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      background: var(--bg3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      scroll-snap-align: center;
+      transition: transform 0.3s;
+    }
+
+    .phone-frame:hover { transform: translateY(-6px); }
+
+    .phone-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── FEATURES ── */
+    .features-section {
+      padding: 5rem 5%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(249, 115, 22, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* ── SIGNUP ── */
+    #signup {
+      padding: 5rem 5%;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .signup-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .signup-inner .section-title {
+      margin-bottom: 0.75rem;
+    }
+
+    .signup-sub {
+      color: var(--text-dim);
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+
+    .signup-form {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .signup-form input[type="email"] {
+      flex: 1 1 280px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      color: var(--text);
+      font-size: 1rem;
+      padding: 0.85rem 1.5rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .signup-form input[type="email"]:focus {
+      border-color: var(--accent);
+    }
+
+    .signup-form input[type="email"]::placeholder {
+      color: var(--text-dim);
+    }
+
+    .signup-btn {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .signup-btn:hover:not(:disabled) {
+      background: #ea6c10;
+      transform: translateY(-1px);
+    }
+
+    .signup-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #signup-status {
+      margin-top: 1.25rem;
+      font-size: 0.95rem;
+      min-height: 1.4em;
+    }
+
+    #signup-status.success { color: #4ade80; }
+    #signup-status.error   { color: #f87171; }
+
+    /* ── ABOUT ── */
+    .about-section {
+      padding: 5rem 5%;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .about-text {
+      color: var(--text-dim);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .about-text p + p { margin-top: 1rem; }
+
+    .about-dev {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    .dev-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      border: 2px solid rgba(249, 115, 22, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 5%;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    .footer-links { display: flex; gap: 1.5rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding: 5rem 5% 3rem; }
+      .phone-frame { width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="wordmark">lekhini</a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#signup">Early Access</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <span class="badge">Early Access</span>
+  <h1>Ink your thoughts.</h1>
+  <p class="hero-sub">
+    Lekhini is a journal-first writing app for Telugu &amp; English writers.
+    Capture moments, craft beautiful quote cards, and share your voice — quietly.
+  </p>
+  <a href="#signup" class="cta-btn">Request Early Access</a>
+</section>
+
+<!-- ── SCREENSHOTS ── -->
+<section class="screenshots-section">
+  <div class="screenshots-scroll">
+    <div class="phone-frame">
+      <img src="screenshots/01_splash.png" alt="Lekhini splash screen" loading="lazy" />
+    </div>
+    <div class="phone-frame">
+      <img src="screenshots/02_home_feed.png" alt="Lekhini home feed" loading="lazy" />
+    </div>
+    <div class="phone-frame">
+      <img src="screenshots/03_compose.png" alt="Lekhini compose screen" loading="lazy" />
+    </div>
+    <div class="phone-frame">
+      <img src="screenshots/04_design.png" alt="Lekhini design screen" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section id="features" class="features-section">
+  <p class="section-label">Features</p>
+  <h2 class="section-title">Everything you need.<br/>Nothing you don't.</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🎨</span>
+      <div class="feature-title">Quote Card Builder</div>
+      <p class="feature-desc">Turn any journal entry into a beautifully styled quote card — ready to share in seconds.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔤</span>
+      <div class="feature-title">Telugu &amp; English</div>
+      <p class="feature-desc">Write freely in Telugu, English, or both. Native script support so your words feel at home.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔒</span>
+      <div class="feature-title">Write Privately</div>
+      <p class="feature-desc">Your journal is yours. Lock entries, write offline, and keep your thoughts to yourself.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📤</span>
+      <div class="feature-title">Export &amp; Share</div>
+      <p class="feature-desc">Export entries as text or share polished cards to Instagram, WhatsApp, and beyond.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🤫</span>
+      <div class="feature-title">Social — Quietly</div>
+      <p class="feature-desc">Discover writers, follow quietly, appreciate deeply. No noise, no algorithmic pressure.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🚫</span>
+      <div class="feature-title">No Ads. Ever.</div>
+      <p class="feature-desc">Lekhini will never show ads or sell your writing. Your words are not the product.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SIGNUP ── -->
+<section id="signup">
+  <div class="signup-inner">
+    <p class="section-label">Early Access</p>
+    <h2 class="section-title">Be among the first.</h2>
+    <p class="signup-sub">Drop your email and we'll reach out when Lekhini is ready for you.</p>
+    <form class="signup-form" id="earlyAccessForm">
+      <input type="email" id="emailInput" placeholder="your@email.com" required autocomplete="email" />
+      <button type="submit" class="signup-btn" id="submitBtn">Request Early Access</button>
+    </form>
+    <p id="signup-status" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about" class="about-section">
+  <p class="section-label">About</p>
+  <h2 class="section-title" style="margin-bottom:1.5rem;">A writing app built with love.</h2>
+  <div class="about-text">
+    <p>
+      Lekhini (లేఖిని) means "pen" in Telugu. It was built for writers who think in two languages,
+      for people who want a private space to reflect, and for anyone who has ever wanted their words
+      to look as beautiful as they feel.
+    </p>
+    <p>
+      It started as a personal project — a journal app I wished existed. Now it's growing into something
+      more: a quiet corner of the internet for Telugu &amp; English writers to write, design, and share.
+    </p>
+  </div>
+  <div class="about-dev">
+    <div class="dev-avatar">✍️</div>
+    <div>
+      <strong style="color: var(--text);">Shanmukha Vishnu</strong><br/>
+      Developer &amp; writer, building Lekhini
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a href="#" class="wordmark" style="font-size:1.1rem;">lekhini</a>
+  <div class="footer-links">
+    <a href="mailto:docs.vishnushanmukha@gmail.com">docs.vishnushanmukha@gmail.com</a>
+    <a href="/privacy">Privacy Policy</a>
+  </div>
+  <span>© 2026 Shanmukha Vishnu</span>
+</footer>
+
+<!-- ── FIREBASE SDK ── -->
+<script type="module">
+  const firebaseConfig = {
+    apiKey:            "AIzaSyAb6ewvkQESbTzAOj30OkFSm92DoJY_xuY",
+    authDomain:        "lekhini-app.firebaseapp.com",
+    projectId:         "lekhini-app",
+    storageBucket:     "lekhini-app.firebasestorage.app",
+    messagingSenderId: "301000423821",
+    appId:             "1:301000423821:web:2108c618d1be72f0bba5c4"
+  };
+
+  // Firebase SDK from CDN
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+  const { getFirestore, collection, addDoc, serverTimestamp } =
+    await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  // ── Form handler ──
+  const form      = document.getElementById("earlyAccessForm");
+  const emailInput = document.getElementById("emailInput");
+  const submitBtn  = document.getElementById("submitBtn");
+  const status     = document.getElementById("signup-status");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value.trim().toLowerCase();
+    if (!email) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    status.className = "";
+    status.textContent = "";
+
+    try {
+      await addDoc(collection(db, "earlyAccess"), {
+        email,
+        subscribedAt: serverTimestamp(),
+        source: "web"
+      });
+
+      status.className = "success";
+      status.textContent = "You're on the list! We'll be in touch soon.";
+      emailInput.value = "";
+      submitBtn.textContent = "Done ✓";
+    } catch (err) {
+      console.error(err);
+      status.className = "error";
+      status.textContent = "Something went wrong. Please try again or email us directly.";
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Request Early Access";
+    }
+  });
+</script>
+
+</body>
+</html>
