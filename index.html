@@ -345,6 +345,105 @@
       opacity: 0.85;
     }
 
+    /* ── TRY NOW ── */
+    #try-now {
+      padding: 5rem 5%;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .try-now-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .try-now-inner .section-title {
+      margin-bottom: 0.75rem;
+    }
+
+    .try-now-sub {
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .try-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      transition: background 0.2s, transform 0.15s;
+      margin-bottom: 2.5rem;
+    }
+
+    .try-btn:hover {
+      background: #ea6a0a;
+      transform: translateY(-1px);
+    }
+
+    .instructions-box {
+      border-top: 1px solid var(--border);
+      padding-top: 1.75rem;
+      text-align: left;
+    }
+
+    .instructions-box h3 {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin: 0 0 1.1rem;
+    }
+
+    .instructions-box ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .instructions-box ol li {
+      counter-increment: steps;
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      padding-bottom: 0.7rem;
+    }
+
+    .instructions-box ol li:last-child {
+      padding-bottom: 0;
+    }
+
+    .instructions-box ol li::before {
+      content: counter(steps);
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 3px;
+    }
+
+    .instructions-box ol li strong {
+      color: var(--text);
+    }
+
     /* ── ABOUT ── */
     .about-section {
       padding: 5rem 5%;
@@ -514,6 +613,30 @@
       <button type="submit" class="signup-btn" id="submitBtn">Request Early Access</button>
     </form>
     <p id="signup-status" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- ── TRY NOW ── -->
+<section id="try-now">
+  <div class="try-now-inner">
+    <p class="section-label">Can't wait?</p>
+    <h2 class="section-title">Try Lekhini right now.</h2>
+    <p class="try-now-sub">Skip the wait and install the latest build directly on your Android device using internal app sharing.</p>
+    <a href="https://play.google.com/apps/test/RQiO4S_wbaQ/ahAO29uNShIf10E-02WoH_X2MA1mor74L9F0KJgFSpRE_dS06Sq9FolyOjdTVrOuy1ei6eJybH2ox68XZqAAoIeFew"
+       class="try-btn" target="_blank" rel="noopener">
+      Try Now &rarr;
+    </a>
+    <div class="instructions-box">
+      <h3>How to enable Internal App Sharing</h3>
+      <ol>
+        <li>Open the <strong><a href="https://play.google.com/apps/test/RQiO4S_wbaQ/ahAO29uNShIf10E-02WoH_X2MA1mor74L9F0KJgFSpRE_dS06Sq9FolyOjdTVrOuy1ei6eJybH2ox68XZqAAoIeFew" target="_blank" rel="noopener" style="color:inherit;">Play Store</a></strong> app and tap your <strong>profile avatar</strong> in the top right corner.</li>
+        <li>Tap <strong>Settings</strong>.</li>
+        <li>Under the <strong>About</strong> section, tap <strong>Play Store version</strong> seven times continuously.</li>
+        <li>Tap on the <strong>General</strong> section.</li>
+        <li>Tap <strong>Developer options</strong>.</li>
+        <li>Enable <strong>Internal app sharing</strong>, then tap the Try Now button above.</li>
+      </ol>
+    </div>
   </div>
 </section>
 
