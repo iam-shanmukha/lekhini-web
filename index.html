@@ -328,6 +328,23 @@
     #signup-status.success { color: #4ade80; }
     #signup-status.error   { color: #f87171; }
 
+    #countdown {
+      margin-top: 0.6rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #f97316;
+      letter-spacing: 0.04em;
+    }
+
+    #reg-countdown {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f97316;
+      letter-spacing: 0.04em;
+      opacity: 0.85;
+    }
+
     /* ── ABOUT ── */
     .about-section {
       padding: 5rem 5%;
@@ -415,6 +432,7 @@
     Capture moments, craft beautiful quote cards, and share your voice — quietly.
   </p>
   <a href="#signup" class="cta-btn">Request Early Access</a>
+  <p id="reg-countdown"></p>
 </section>
 
 <!-- ── SCREENSHOTS ── -->
@@ -575,18 +593,20 @@
 
       if (existing.exists()) {
         status.className = "success";
-        status.textContent = "You're already on the list!";
+        status.innerHTML = `You're already on the list! You'll get your link by <strong>Monday at 7:00 PM</strong>.<div id="countdown"></div>`;
         submitBtn.disabled = false;
         submitBtn.textContent = "Request Early Access";
+        startCountdown("countdown", 19, 0, "🎉 Link is on its way!");
         return;
       }
 
       await setDoc(docRef, { email, subscribedAt: serverTimestamp(), source: "web" });
 
       status.className = "success";
-      status.textContent = "You're on the list! We'll be in touch soon.";
+      status.innerHTML = `You're on the list! Your access link arrives <strong>Monday at 7:00 PM</strong>.<div id="countdown"></div>`;
       emailInput.value = "";
       submitBtn.textContent = "Done ✓";
+      startCountdown("countdown", 19, 0, "🎉 Link is on its way!");
     } catch (err) {
       console.error(err);
       status.className = "error";
@@ -595,6 +615,37 @@
       submitBtn.textContent = "Request Early Access";
     }
   });
+
+  // ── Countdown utility ──
+  function getNextMonday(hour, minute) {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun, 1=Mon
+    let daysUntil = (1 - day + 7) % 7;
+    const target = new Date(now);
+    target.setDate(now.getDate() + daysUntil);
+    target.setHours(hour, minute, 0, 0);
+    if (target <= now) target.setDate(target.getDate() + 7);
+    return target;
+  }
+
+  function startCountdown(elId, hour, minute, doneMsg) {
+    function tick() {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const diff = getNextMonday(hour, minute) - new Date();
+      if (diff <= 0) { el.textContent = doneMsg; return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      el.textContent = `⏳ ${d}d ${h}h ${m}m ${s}s`;
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  // Registration closes Monday 6:00 PM
+  startCountdown("reg-countdown", 18, 0, "🔒 Registration closed for this batch.");
 </script>
 
 </body>
