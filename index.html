@@ -525,7 +525,7 @@
 
   // Firebase SDK from CDN
   const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
-  const { getFirestore, collection, addDoc, serverTimestamp } =
+  const { getFirestore, doc, getDoc, setDoc, serverTimestamp } =
     await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
 
   const app = initializeApp(firebaseConfig);
@@ -549,11 +549,18 @@
     status.textContent = "";
 
     try {
-      await addDoc(collection(db, "earlyAccess"), {
-        email,
-        subscribedAt: serverTimestamp(),
-        source: "web"
-      });
+      const docRef = doc(db, "earlyAccess", email);
+      const existing = await getDoc(docRef);
+
+      if (existing.exists()) {
+        status.className = "success";
+        status.textContent = "You're already on the list!";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Request Early Access";
+        return;
+      }
+
+      await setDoc(docRef, { email, subscribedAt: serverTimestamp(), source: "web" });
 
       status.className = "success";
       status.textContent = "You're on the list! We'll be in touch soon.";
